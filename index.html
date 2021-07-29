@@ -42,40 +42,22 @@
         <button onclick="changeAttackingTroops(1)">
           Add Attacking 1 Troop
         </button>
-        <button onclick="changeAttackingTroops(5)">
-          Add Attacking 5 Troop
-        </button>
         <button onclick="changeAttackingTroops(10)">
           Add Attacking 10 Troop
         </button>
         <button onclick="changeAttackingTroops(-1)">
           Sub Attacking 1 Troop
         </button>
-        <button onclick="changeAttackingTroops(-5)">
-          Sub Attacking 5 Troop
-        </button>
-        <button onclick="changeAttackingTroops(-10)">
-          Sub Attacking 10 Troop
-        </button>
       </div>
       <div class="box">
         <button onclick="changeDefendingTroops(1)">
           Add Defending 1 Troop
-        </button>
-        <button onclick="changeDefendingTroops(5)">
-          Add Defending 5 Troop
         </button>
         <button onclick="changeDefendingTroops(10)">
           Add Defending 10 Troop
         </button>
         <button onclick="changeDefendingTroops(-1)">
           Sub Defending 1 Troop
-        </button>
-        <button onclick="changeDefendingTroops(-5)">
-          Sub Defending 5 Troop
-        </button>
-        <button onclick="changeDefendingTroops(-10)">
-          Sub Defending 10 Troop
         </button>
       </div>
 
@@ -111,6 +93,7 @@
       if (global.ATTACKING_DICE > 3) global.ATTACKING_DICE = 3;
 
       if (global.DEFENDING_TROOPS < 0) global.DEFENDING_TROOPS = 0;
+      if (global.DEFENDING_TROOPS > 2) global.DEFENDING_DICE = 2;
       if (global.DEFENDING_DICE > global.DEFENDING_TROOPS)
         global.DEFENDING_DICE = global.DEFENDING_TROOPS;
       if (global.DEFENDING_DICE > 2) global.DEFENDING_DICE = 2;
@@ -172,11 +155,11 @@
       }
 
       for (var i = 0; i < global.ATTACKING_DICE; i++)
-        attDices.push(Math.floor(random(1, 7)));
+        attDices.push(Math.floor(Math.random() * 5.999) + 1);
       attDices.sort((a, b) => b - a);
 
       for (var i = 0; i < global.DEFENDING_DICE; i++)
-        defDices.push(Math.floor(random(1, 7)));
+        defDices.push(Math.floor(Math.random() * 5.999) + 1);
       defDices.sort((a, b) => b - a);
 
       if (attDices[0] > defDices[0]) global.DEFENDING_TROOPS--;
