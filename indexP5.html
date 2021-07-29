@@ -1,42 +1,19 @@
 <html>
   <head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+
+    <script src="library.js"></script>
+    <script src="model-func.js"></script>
+    <script src="shapes.js"></script>
+    <script src="sketch-collision.js"></script>
+    <script src="sketch-draw.js"></script>
+    <script src="sketch-input.js"></script>
+    <script src="sketch-move.js"></script>
+    <script src="sketch.js"></script>
     <script src="model.js"></script>
   </head>
   <body>
-    <div>
-      <div>
-        <label>Attacking Troops</label>
-        <input
-          id="attackingTroops"
-          type="number"
-          onchange='updateProperty("attackingTroops", "ATTACKING_TROOPS")'
-        />
-      </div>
-      <div>
-        <label>Attacking Dice</label>
-        <input
-          id="attackingDice"
-          type="number"
-          onchange='updateProperty("attackingDice", "ATTACKING_DICE")'
-        />
-      </div>
-      <div>
-        <label>Defending Troops</label>
-        <input
-          id="defendingTroops"
-          type="number"
-          onchange='updateProperty("defendingTroops", "DEFENDING_TROOPS")'
-        />
-      </div>
-      <div>
-        <label>Defending Dice</label>
-        <input
-          id="defendingDice"
-          type="number"
-          onchange='updateProperty("defendingDice", "DEFENDING_DICE")'
-        />
-      </div>
-    </div>
+    <main></main>
     <div>
       <div class="box">
         <button onclick="changeAttackingTroops(1)">
@@ -91,46 +68,13 @@
     </div>
   </body>
   <script>
-    function updateDisplay() {
-      validateModel();
-      document.getElementById("attackingTroops").value =
-        global.ATTACKING_TROOPS;
-
-      document.getElementById("defendingTroops").value =
-        global.DEFENDING_TROOPS;
-
-      document.getElementById("attackingDice").value = global.ATTACKING_DICE;
-
-      document.getElementById("defendingDice").value = global.DEFENDING_DICE;
-    }
-
-    function validateModel() {
-      if (global.ATTACKING_TROOPS < 0) global.ATTACKING_TROOPS = 0;
-      if (global.ATTACKING_DICE > global.ATTACKING_TROOPS)
-        global.ATTACKING_DICE = global.ATTACKING_TROOPS;
-      if (global.ATTACKING_DICE > 3) global.ATTACKING_DICE = 3;
-
-      if (global.DEFENDING_TROOPS < 0) global.DEFENDING_TROOPS = 0;
-      if (global.DEFENDING_DICE > global.DEFENDING_TROOPS)
-        global.DEFENDING_DICE = global.DEFENDING_TROOPS;
-      if (global.DEFENDING_DICE > 2) global.DEFENDING_DICE = 2;
-    }
-
-    function updateProperty(inputId, propId) {
-      var input = document.getElementById(inputId);
-      global[propId] = parseInt(input.value);
-      updateDisplay();
-    }
-
     function changeAttackingTroops(num) {
       global.ATTACKING_TROOPS += num;
       if (1 > global.ATTACKING_TROOPS) global.ATTACKING_TROOPS = 1;
-      updateDisplay();
     }
     function changeDefendingTroops(num) {
       global.DEFENDING_TROOPS += num;
       if (1 > global.DEFENDING_TROOPS) global.DEFENDING_TROOPS = 1;
-      updateDisplay();
     }
 
     function changeAttackingDice(num) {
@@ -139,7 +83,6 @@
       if (global.ATTACKING_DICE < 1) global.ATTACKING_DICE = 1;
       if (global.ATTACKING_TROOPS == 2) global.ATTACKING_DICE = 2;
       if (global.ATTACKING_TROOPS == 1) global.ATTACKING_DICE = 1;
-      updateDisplay();
     }
     function determineAttackingDice() {
       if (global.ATTACKING_TROOPS >= 3) global.ATTACKING_DICE = 3;
@@ -155,7 +98,6 @@
         determineDefendingDice();
         startABattle();
       }
-      updateDisplay();
     }
 
     function startABattle() {
@@ -193,7 +135,6 @@
       if (global.DEFENDING_TROOPS < global.DEFENDING_DICE) {
         global.DEFENDING_DICE = global.DEFENDING_TROOPS;
       }
-      updateDisplay();
     }
     function reset() {
       global.ATTACKING_TROOPS = 1;
@@ -202,12 +143,7 @@
       global.DEFENDING_DICE = 1;
       global.SURVIVING_ATTACKING_TROOPS = 0;
       global.SURVIVING_DEFENDING_TROOPS = 0;
-      updateDisplay();
     }
-
-    (function () {
-      updateDisplay();
-    })();
   </script>
 
   <style>
