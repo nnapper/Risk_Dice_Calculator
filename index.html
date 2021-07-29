@@ -88,12 +88,15 @@
 
     function validateModel() {
       if (global.ATTACKING_TROOPS < 0) global.ATTACKING_TROOPS = 0;
+      if (global.ATTACKING_DICE < global.ATTACKING_TROOPS)
+        global.ATTACKING_DICE = global.ATTACKING_TROOPS;
       if (global.ATTACKING_DICE > global.ATTACKING_TROOPS)
         global.ATTACKING_DICE = global.ATTACKING_TROOPS;
       if (global.ATTACKING_DICE > 3) global.ATTACKING_DICE = 3;
 
       if (global.DEFENDING_TROOPS < 0) global.DEFENDING_TROOPS = 0;
       if (global.DEFENDING_TROOPS > 2) global.DEFENDING_DICE = 2;
+      if (global.DEFENDING_TROOPS == 1) global.DEFENDING_DICE = 1;
       if (global.DEFENDING_DICE > global.DEFENDING_TROOPS)
         global.DEFENDING_DICE = global.DEFENDING_TROOPS;
       if (global.DEFENDING_DICE > 2) global.DEFENDING_DICE = 2;
