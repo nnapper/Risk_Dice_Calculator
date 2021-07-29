@@ -1,0 +1,141 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+
+    <script src="library.js"></script>
+    <script src="model-func.js"></script>
+    <script src="shapes.js"></script>
+    <script src="sketch-collision.js"></script>
+    <script src="sketch-draw.js"></script>
+    <script src="sketch-input.js"></script>
+    <script src="sketch-move.js"></script>
+    <script src="sketch.js"></script>
+    <script src="model.js"></script>
+  </head>
+  <body>
+    <main></main>
+    <div>
+      <div class="box">
+        <button onclick="changeAttackingTroops(1)">
+          Add Attacking 1 Troop
+        </button>
+        <button onclick="changeAttackingTroops(5)">
+          Add Attacking 5 Troop
+        </button>
+        <button onclick="changeAttackingTroops(10)">
+          Add Attacking 10 Troop
+        </button>
+        <button onclick="changeAttackingTroops(-1)">
+          Sub Attacking 1 Troop
+        </button>
+        <button onclick="changeAttackingTroops(-5)">
+          Sub Attacking 5 Troop
+        </button>
+        <button onclick="changeAttackingTroops(-10)">
+          Sub Attacking 10 Troop
+        </button>
+      </div>
+      <div class="box">
+        <button onclick="changeDefendingTroops(1)">
+          Add Defending 1 Troop
+        </button>
+        <button onclick="changeDefendingTroops(5)">
+          Add Defending 5 Troop
+        </button>
+        <button onclick="changeDefendingTroops(10)">
+          Add Defending 10 Troop
+        </button>
+        <button onclick="changeDefendingTroops(-1)">
+          Sub Defending 1 Troop
+        </button>
+        <button onclick="changeDefendingTroops(-5)">
+          Sub Defending 5 Troop
+        </button>
+        <button onclick="changeDefendingTroops(-10)">
+          Sub Defending 10 Troop
+        </button>
+      </div>
+
+      <div class="box">
+        <button onclick="changeAttackingDice(1)">Add Attacking 1 Dice</button>
+        <button onclick="changeAttackingDice(-1)">Sub Attacking 1 Dice</button>
+      </div>
+      <div class="box">
+        <button onclick="startBattle()">Start Battle</button>
+        <button onclick="reset()">Reset</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    function changeAttackingTroops(num) {
+      global.ATTACKING_TROOPS += num;
+      if (1 > global.ATTACKING_TROOPS) global.ATTACKING_TROOPS = 1;
+    }
+    function changeDefendingTroops(num) {
+      global.DEFENDING_TROOPS += num;
+      if (1 > global.DEFENDING_TROOPS) global.DEFENDING_TROOPS = 1;
+    }
+
+    function changeAttackingDice(num) {
+      global.ATTACKING_DICE += num;
+      if (global.ATTACKING_DICE > 3) global.ATTACKING_DICE = 3;
+      if (1 > global.ATTACKING_DICE) global.ATTACKING_DICE = 1;
+      if (global.ATTACKING_TROOPS == 2) global.ATTACKING_DICE = 2;
+      if (global.ATTACKING_TROOPS == 1) global.ATTACKING_DICE = 1;
+    }
+    function determineDefendingDice() {
+      if (global.DEFENDING_TROOPS >= 2) global.DEFENDING_DICE = 2;
+      if (global.DEFENDING_TROOPS == 1) global.DEFENDING_DICE = 1;
+      if (1 > global.DEFENDING_TROOPS) global.DEFENDING_DICE = 1;
+    }
+    function startBattle() {
+      while (global.ATTACKING_TROOPS > 0 && global.DEFENDING_TROOPS > 0) {
+        determineDefendingDice();
+        startABattle();
+      }
+
+      global.SURVIVING_ATTACKING_TROOPS = global.ATTACKING_TROOPS;
+      global.SURVIVING_DEFENDING_TROOPS = global.DEFENDING_TROOPS;
+    }
+
+    function startABattle() {
+      var attDices = [];
+      var defDices = [];
+
+      for (var i = 0; i < global.ATTACKING_DICE; i++)
+        attDices.push(Math.floor(random(1, 7)));
+      attDices.sort((a, b) => b - a);
+
+      for (var i = 0; i < global.DEFENDING_DICE; i++)
+        defDices.push(Math.floor(random(1, 7)));
+      defDices.sort((a, b) => b - a);
+
+      if (attDices[0] > defDices[0]) global.DEFENDING_TROOPS--;
+      else global.ATTACKING_TROOPS--;
+
+      if (attDices[1] != null && defDices[1] != null) {
+        if (attDices[1] > defDices[1]) global.DEFENDING_TROOPS--;
+        else global.ATTACKING_TROOPS--;
+      }
+    }
+    function reset() {
+      global.ATTACKING_TROOPS = 1;
+      global.DEFENDING_TROOPS = 1;
+      global.ATTACKING_DICE = 1;
+      global.DEFENDING_DICE = 1;
+      global.SURVIVING_ATTACKING_TROOPS = 0;
+      global.SURVIVING_DEFENDING_TROOPS = 0;
+    }
+  </script>
+
+  <style>
+    button {
+      width: 100px;
+      height: 50px;
+    }
+
+    .box {
+      margin: 10px;
+    }
+  </style>
+</html>
